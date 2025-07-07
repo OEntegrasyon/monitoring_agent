@@ -1,0 +1,6 @@
+rabbit_ip: "192.168.1.100"
+rabbit_port: "5672"
+rabbit_user: "giys"
+rabbit_pass: "giys"
+interval: 30
+hostname: "pardus23-deneme"
