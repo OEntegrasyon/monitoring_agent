@@ -4,7 +4,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -32,9 +31,8 @@ func getMemoryUsage() float64 {
 }
 
 func getCPUUsage() float64 {
-	// snapshot 1
 	startIdle, startTotal := readCPU()
-	time.Sleep(200 * time.Millisecond) // small wait
+	time.Sleep(200 * time.Millisecond)
 	endIdle, endTotal := readCPU()
 
 	idleTicks := float64(endIdle - startIdle)
@@ -59,21 +57,4 @@ func readCPU() (idle, total int) {
 
 	total = user + nice + system + idle + iowait + irq + softirq
 	return idle, total
-}
-
-func getDiskUsage(path string) float64 {
-	var stat syscall.Statfs_t
-	err := syscall.Statfs(path, &stat)
-	if err != nil {
-		return 0
-	}
-
-	total := stat.Blocks * uint64(stat.Bsize)
-	free := stat.Bavail * uint64(stat.Bsize)
-	used := total - free
-
-	if total == 0 {
-		return 0
-	}
-	return (float64(used) / float64(total)) * 100
 }
