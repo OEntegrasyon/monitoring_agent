@@ -1,3 +1,5 @@
+// Copyright (C) 2025 Özgür Entegrasyon
+
 package main
 
 import (
